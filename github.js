@@ -9,7 +9,7 @@ var line = file_h.readLine();
 while (line) {
   var cardProps = line.split("$$$$");
   cards.push(cardProps);
-  console.log(cardProps[10]);
+  // console.log(cardProps[10]);
   line = file_h.readLine();
 }
 file_h.close();
@@ -17,7 +17,7 @@ file_h.close();
 
 var args = system.args;
 if (args.length === 1) {
-  console.log('Try to pass some arguments when invoking this script!');
+  console.log('No additional arguments passed when invoking this script');
 } else {
   args.forEach(function(arg, i) {
     console.log(i + ': ' + arg);
@@ -25,28 +25,43 @@ if (args.length === 1) {
 }
 
 
+
+function getFileUrl(str) {
+  var pathName = fs.absolute(str).replace(/\\/g, '/');
+  // Windows drive letter must be prefixed with a slash
+  if (pathName[0] !== "/") {
+    pathName = "/" + pathName;
+  }
+  return encodeURI("file://" + pathName);
+};
+
+var fileUrl = getFileUrl("input/html/cardExportTest.html");
+console.log(fileUrl);
+
+
+
 //viewportSize being the actual size of the headless browser
 page.viewportSize = { width: 1024, height: 768 };
-page.open('file:///Users/davisallen/Projects/Javascript/phantomCardGen/input/html/cardExportTest.html', function() {
+page.open(fileUrl, function() {
 
   var currentCard;
   for (var i = 0; i < cards.length; i++) {
     currentCard = cards[i];
     page.evaluate(function(currentCard) {
       var cardTitle = document.getElementById('q-card-name-header');
-      cardTitle.innerText = currentCard[7];
-      return "Finished running JS on the page";
+      var cardQuestion = document.getElementById('q-card-question-text');
+      var qCardContent = document.getElementsByClassName('q-card-content')[0];
+      cardTitle.innerText = currentCard[9];
+      cardQuestion.innerText = currentCard[12];
+      qCardContent.style.color = currentCard[5];
+
+      var numbers = document.getElementsByClassName('number-suit-face-number');
+      var suits = document.getElementsByClassName('number-suit-face-icon');
+      for(var i = 0; i < numbers.length; i++) { numbers[i].innerText = currentCard[7]; }
+      for(var i = 0; i < suits.length; i++) { suits[i].innerText = currentCard[8]; }
     }, currentCard);
     page.render('output/github' + i + '.png');
   }
 
-  page.evaluate(function() {
-
-    qCardInner.style.color = "lightblue";
-
-    return "Finished running JS on the page";
-  });
-
-  page.render('output/github' + "XXX" + '.png');
   phantom.exit();
 });
