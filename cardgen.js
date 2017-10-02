@@ -4,11 +4,9 @@ var page = require('webpage').create();
 
 var cards = [];
 
-// var file_h = fs.open('input/cardsNewDelim.csv', 'r');
 var file_h = fs.open('input/cardsTabDelim.tsv', 'r');
 var line = file_h.readLine();
 while (line) {
-  // var cardProps = line.split("$$$$");
   var cardProps = line.split("\t");
   cards.push(cardProps);
   line = file_h.readLine();
