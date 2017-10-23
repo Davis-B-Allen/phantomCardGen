@@ -28,7 +28,7 @@ Note: remember to [add phantomjs to your PATH](https://www.java.com/en/download/
 * `bleed` includes a margin around the card
 * `nobleed` includes no margin
 
-The script assumes there will be a .tsv file in the input folder named **cardsTabDelim.tsv**
+The script assumes there will be a .tsv file in the **input** folder named **cardsTabDelim.tsv**. Make sure you place a file so named in that **input** folder (input/cardsTabDelim.tsv). This file should contain all the card data you're intending to generate card images from.
 
 This tab-separated data source must have the following columns:
 * **Topic** : Lens name of the card
