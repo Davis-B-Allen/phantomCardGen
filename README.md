@@ -1,37 +1,46 @@
-Install PhantomJS
+# Requirements
+---
 
-The cardgen.js script will look for a tab-delimited data file named cardsTabDelim.tsv within an input folder at:
-./input/cardsTabDelim.tsv
+Install PhantomJS:
 
+[go here and click on the Download Button](http://phantomjs.org/)
 
+# Usage
+---
 
-Run from command line with:
+To generate question cards, run the following at the command line:
+```
+phantomjs cardgen.js [htmlSource] [layoutType]
+```
+or with [Windows Command Prompt](https://www.howtogeek.com/235101/10-ways-to-open-the-command-prompt-in-windows-10/):
+```
+phantomjs.exe cardgen.js [htmlSource] [layoutType]
+```
+Note: remember to [add phantomjs to your PATH](https://www.java.com/en/download/help/path.xml)
 
-phantomjs cardgen.js
+## Parameters and required files:
 
-or on Windows:
-/path/to/phantomjs.exe cardgen.js
+`[htmlSource]` must be either `local` or `remote`
+* `local` will look for an html file named **cardExportTest.html** within the **input/html/** folder
+* `remote` will pull the layout from https://ancient-fortress-56378.herokuapp.com/test
 
-or on Windows, if you've added the phantomjs bin to your path, just:
-phantomjs.exe cardgen.js
+`[layoutType]` must be either `bleed` or `nobleed`
+* `bleed` includes a margin around the card
+* `nobleed` includes no margin
 
+The script assumes there will be a .tsv file in the input folder named **cardsTabDelim.tsv**
 
+This tab-separated data source must have the following columns:
+* **Topic** : Lens name of the card
+* **Color** : Color of Lens name and number/suit
+* **Text** : Question text of card
+* **BackgroundColor** : background color for card
+* **qTextColor** : color for the question text
+* **footerColor** : color for the footer text
+* **NumDisp** : number for the card
+* **SymDisp** : suit symbol for the card
 
-This will use https://ancient-fortress-56378.herokuapp.com/test as a template for the cards
+# Problem Card Usage
+---
 
-
-
-If you run with an optional argument "local":
-
-phantomjs cardgen.js local
-(phantomjs.exe cardgen.js local)
-
-the script will look for an html file named cardExportTest.html within an html folder in the input folder at:
-./input/html/cardExportTest.html
-
-
-
-
-
-Data Source:
-The cardsTabDelim.tsv file must have:
+Coming soon
