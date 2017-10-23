@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)https://ancient-fortress-56378.herokuapp.com/test -->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>cardExportTest</title>
+    <link rel="stylesheet" media="screen" href="./probsLayout_files/probs.css">
+  </head>
+
+  <body>
+
+    <div class="export-container">
+      <div class="pcard">
+        <div class="p-card-spacer"></div>
+        <div class="p-card-content">
+          <div class="p-card-content-inner">
+            <div id="p-card-content-problem" class="vertical-align">
+              I make terrible decisions.
+            </div>
+          </div>
+          <div id="footer">
+            You Against Humanity™ © 2017 Viral Virtue Inc.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var pcard = document.getElementsByClassName('pcard')[0];
+      var pcardWidth = pcard.scrollWidth;
+
+      // var pCardInner = document.getElementsByClassName('p-card-content-inner')[0];
+      // pCardInner.style.fontSize = (pcardWidth / 8) + "px";
+      var pCardInner = document.getElementById("p-card-content-problem");
+      pCardInner.style.fontSize = (pcardWidth / 9) + "px";
+      var pCardInner = document.getElementById("footer");
+      pCardInner.style.fontSize = (pcardWidth / 30) + "px";
+    </script>
+
+  </body>
+</html>

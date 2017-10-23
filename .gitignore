@@ -1,2 +1,6 @@
-input
+input/*
+!input/html/
+
 output
+
+*.DS_Store
