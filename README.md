@@ -47,6 +47,13 @@ After specifying the phantomjs script, you may include the following options:
 * `--text <text>`
   * `<text>` should be the name of the column that contains the text for each card. Note: case sensitive
   * if this option is not used, the script will look for a column named "DisplayText"
+* `--outputfolder <outputfolder>`
+  * `<outputfolder>` should be the name of a folder to which to write the output. This folder will be made a subfolder of the **output/** folder. If it exists, content within it will be overwritten. If it doesn't exist it will be created
+  * if this option is not used, the script will by default write to the **output/** folder.
+* `--font <font>`
+  * `<font>` should be the font-family value you wish to use. "segoe" is the only custom font included by default in the files in **input/html**
+  * example: `--font "Times New Roman"` or `--font "Arial"`
+  * if this option is not used, "segoe" will be the default font used
 
 For Example:
 

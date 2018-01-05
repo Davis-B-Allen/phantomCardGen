@@ -12,6 +12,8 @@ var vpWidth = 1500;
 var vpHeight = 2100;
 var topicColumnName = "DisplayTopic";
 var textColumnName = "DisplayText";
+var outputPath = "output/";
+var cardFont = "segoe";
 
 function getFileUrl(str) {
   var pathName = fs.absolute(str).replace(/\\/g, '/');
@@ -112,6 +114,27 @@ if (args.length === 1) {
       console.log("no text argument found");
     }
   }
+
+  // --outputfolder
+  if (args.indexOf("--outputfolder") > -1) {
+    var outputArg = args[args.indexOf("--outputfolder") + 1];
+    if (outputArg) {
+      outputPath = outputPath + outputArg + "/";
+    } else {
+      console.log("no output argument found");
+    }
+  }
+
+  // --font
+  if (args.indexOf("--font") > -1) {
+    var font = args[args.indexOf("--font") + 1];
+    if (font) {
+      cardFont = font;
+      console.log(args.indexOf("--font") + ": " + args[args.indexOf("--font")] + ": " + args[args.indexOf("--font") + 1]);
+    } else {
+      console.log("no output argument found");
+    }
+  }
 }
 console.log("-------- Done processing args");
 
@@ -143,7 +166,7 @@ page.open(fileUrl, function() {
   var currentCard;
   for (var i = 0; i < cards.length; i++) {
     currentCard = cards[i];
-    page.evaluate(function(currentCard,cardsLabels,bleed,topicColumnName,textColumnName) {
+    page.evaluate(function(currentCard,cardsLabels,bleed,topicColumnName,textColumnName,cardFont) {
       if (bleed) {
         document.body.style.margin = "72px"
       } else {
@@ -154,8 +177,10 @@ page.open(fileUrl, function() {
       var cardQuestion = document.getElementById('q-card-question');
       var qCardFooter = document.getElementsByClassName('q-card-footer')[0];
       cardTitle.innerHTML = "<h1>" + currentCard[cardsLabels.indexOf(topicColumnName)] + "</h1>";
+      cardTitle.style.fontFamily = cardFont;
       cardTitle.style.color = currentCard[cardsLabels.indexOf("Color")];
       cardQuestion.innerHTML = "<p>" + currentCard[cardsLabels.indexOf(textColumnName)] + "</p>";
+      cardQuestion.style.fontFamily = cardFont;
       qCard.style.background = currentCard[cardsLabels.indexOf("BackgroundColor")];
       cardQuestion.style.color = currentCard[cardsLabels.indexOf("qTextColor")];
       qCardFooter.style.color = currentCard[cardsLabels.indexOf("footerColor")];
@@ -169,9 +194,8 @@ page.open(fileUrl, function() {
         numbers[i].innerHTML = currentCard[cardsLabels.indexOf("NumDisp")] + "<br>" + currentCard[cardsLabels.indexOf("SymDisp")];
         numbers[i].style.color = currentCard[cardsLabels.indexOf("Color")];
       }
-    }, currentCard,cardsLabels,bleed,topicColumnName,textColumnName);
-    page.render('output/card' + i + '.png');
+    }, currentCard,cardsLabels,bleed,topicColumnName,textColumnName,cardFont);
+    page.render(outputPath + 'card' + i + '.png');
   }
-
   phantom.exit();
 });
