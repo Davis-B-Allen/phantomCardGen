@@ -21,11 +21,16 @@ Note: remember to [add phantomjs to your PATH](https://www.java.com/en/download/
 ## Parameters and default location for required files:
 
 After specifying the phantomjs script, you may include the following options:
-* `--tsv <tsv>`
-  * `<tsv>` should be a tsv file with your source data
+* `--tsvdetails <tsv>`
+  * `<tsv>` should be a tsv file with your source data for card details
   * provide either a full path or a filename
   * if only a filename is provided, it will look for the file within the **input** folder
-  * if this option is not used, the script will look by default for a file named **cardsTabDelim.tsv** within the **input** folder
+  * if this option is not used, the script will look by default for a file named **Q8Me_details.tsv** within the **input/data/q8** folder
+* `--tsvcontent <tsv>`
+  * `<tsv>` should be a tsv file with your source data for card content
+  * provide either a full path or a filename
+  * if only a filename is provided, it will look for the file within the **input** folder
+  * if this option is not used, the script will look by default for a file named **Q8Me_en.tsv** within the **input/data/q8** folder
 * `--localalt <localAltSource>`
   * `<localAltSource>` specifies an alternative source for the card layout
   * provide either a full path or a filename
@@ -58,11 +63,11 @@ After specifying the phantomjs script, you may include the following options:
 For Example:
 
 ```
-phantomjs cardgen.js --tsv cardsTabDelim_DQ4me.tsv --localalt cardExportTest2.html --bleed true --topic DisplayTopic_zh
+phantomjs cardgen.js --tsvdetails Q8Me_details.tsv --localalt cardExportTest2.html --bleed true --topic DisplayTopic --font "Times New Roman"
 ```
 or
 ```
-phantomjs.exe cardgen.js --tsv /Users/johnsmith/cardsTabDelim.tsv --remote true --text DisplayText_zh
+phantomjs.exe cardgen.js --tsvcontent /Users/johnsmith/Q8Me_en.tsv --remote true --text DisplayText --outputfolder q8_zh
 ```
 
 By default, with no options, the script assumes there will be a .tsv file in the **input** folder named **cardsTabDelim.tsv**. Make sure you place a file so named in that **input** folder (input/cardsTabDelim.tsv). This file should contain all the card data you're intending to generate card images from. You can use the `--tsv` option to specify a different cards data source.

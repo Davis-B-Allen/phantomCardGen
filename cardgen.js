@@ -4,7 +4,9 @@ var page = require('webpage').create();
 
 var args = system.args;
 
-var sourceTsv = 'input/cardsTabDelim.tsv'
+var sourceTsv = "input/data/q8/Q8Me_details.tsv";
+var contentTsv = "input/data/q8/Q8Me_en.tsv";
+
 var defaultRemoteFileUrl = "https://ancient-fortress-56378.herokuapp.com/test";
 var fileUrl = getFileUrl("input/html/cardExportTest.html");
 var bleed = false;
@@ -28,6 +30,24 @@ function looksLikePath(someInputString) {
   return ((someInputString.indexOf('/') > -1) || (someInputString.indexOf("\\") > -1));
 }
 
+/**
+ * imports a .tsv file and returns an array of arrays
+ * @param  {str} sourcePath path to source .tsv file
+ * @return {str[][]}        returns an array of arrays of strings
+ */
+function importTsv(sourcePath) {
+  var rows = [];
+  var file_h = fs.open(sourcePath, 'r');
+  var line = file_h.readLine();
+  while (line) {
+    var elements = line.split("\t");
+    rows.push(elements);
+    line = file_h.readLine();
+  }
+  file_h.close();
+  return rows;
+}
+
 console.log("Args: ");
 for (var i = 0; i < args.length; i++) {
   console.log(i + ": " + args[i]);
@@ -37,14 +57,25 @@ console.log("-------- Processing args");
 if (args.length === 1) {
   console.log('No additional arguments passed when invoking this script');
 } else {
-  // --tsv
-  if (args.indexOf("--tsv") > -1) {
-    var tsvArg = args[args.indexOf("--tsv") + 1];
+  // --tsvdetails
+  if (args.indexOf("--tsvdetails") > -1) {
+    var tsvArg = args[args.indexOf("--tsvdetails") + 1];
     if (tsvArg) {
       sourceTsv = (looksLikePath(tsvArg)) ? tsvArg : "input/" + tsvArg;
-      console.log(args.indexOf("--tsv") + ": " + args[args.indexOf("--tsv")] + ": " + args[args.indexOf("--tsv") + 1]);
+      console.log(args.indexOf("--tsvdetails") + ": " + args[args.indexOf("--tsvdetails")] + ": " + args[args.indexOf("--tsvdetails") + 1]);
     } else {
-      console.log("no tsv argument found");
+      console.log("no tsvdetails argument found");
+    }
+  }
+
+  // --tsvcontent
+  if (args.indexOf("--tsvcontent") > -1) {
+    var tsvArg = args[args.indexOf("--tsvcontent") + 1];
+    if (tsvArg) {
+      contentTsv = (looksLikePath(tsvArg)) ? tsvArg : "input/" + tsvArg;
+      console.log(args.indexOf("--tsvcontent") + ": " + args[args.indexOf("--tsvcontent")] + ": " + args[args.indexOf("--tsvcontent") + 1]);
+    } else {
+      console.log("no tsvcontent argument found");
     }
   }
 
@@ -138,19 +169,34 @@ if (args.length === 1) {
 }
 console.log("-------- Done processing args");
 
-var cards = [];
+var cardContent = importTsv(contentTsv);
+var cardDetails = importTsv(sourceTsv);
 
-var file_h = fs.open(sourceTsv, 'r');
-var line = file_h.readLine();
-while (line) {
-  var cardProps = line.split("\t");
-  cards.push(cardProps);
-  line = file_h.readLine();
+// ignore the header rows, and concatenate them for later
+var contentCardLabels = cardContent.shift();
+var detailCardLabels = cardDetails.shift();
+var cardsLabels = detailCardLabels.concat(contentCardLabels);
+
+var contentKeys = cardContent.map(function(item, index) {
+  return item[contentCardLabels.indexOf("Face")];
+});
+
+var detailKeys = cardDetails.map(function(item, index) {
+  return item[detailCardLabels.indexOf("Face")];
+});
+
+var sharedKeys = contentKeys.filter(function(row) {
+    return detailKeys.indexOf(row) !== -1;
+});
+
+var cards = []
+
+for (var i = 0; i < sharedKeys.length; i++) {
+  var key = sharedKeys[i];
+  var sharedDetails = cardDetails.filter(function(row) { return row[detailCardLabels.indexOf("Face")] === key; });
+  var sharedContent = cardContent.filter(function(row) { return row[contentCardLabels.indexOf("Face")] === key; });
+  cards.push(sharedDetails[0].concat(sharedContent[0]))
 }
-file_h.close();
-
-// ignore the header row
-var cardsLabels = cards.shift();
 
 // Leave the line below uncommented to only export a few cards. Keep it commented to export all cards
 // cards = cards.slice(39,42);
@@ -179,7 +225,7 @@ page.open(fileUrl, function() {
       cardTitle.innerHTML = "<h1>" + currentCard[cardsLabels.indexOf(topicColumnName)] + "</h1>";
       cardTitle.style.fontFamily = cardFont;
       cardTitle.style.color = currentCard[cardsLabels.indexOf("Color")];
-      cardQuestion.innerHTML = "<p>" + currentCard[cardsLabels.indexOf(textColumnName)] + "</p>";
+      cardQuestion.innerHTML = "<p>" + "Ask yourself:" + "</p>" + "<p>" + currentCard[cardsLabels.indexOf(textColumnName)] + "</p>";
       cardQuestion.style.fontFamily = cardFont;
       qCard.style.background = currentCard[cardsLabels.indexOf("BackgroundColor")];
       cardQuestion.style.color = currentCard[cardsLabels.indexOf("qTextColor")];
