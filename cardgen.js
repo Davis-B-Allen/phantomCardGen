@@ -150,7 +150,7 @@ if (args.length === 1) {
   if (args.indexOf("--outputfolder") > -1) {
     var outputArg = args[args.indexOf("--outputfolder") + 1];
     if (outputArg) {
-      outputPath = outputPath + outputArg + "/";
+      outputPath = (looksLikePath(outputArg)) ? outputArg : outputPath + outputArg + "/";
     } else {
       console.log("no output argument found");
     }
@@ -221,11 +221,15 @@ page.open(fileUrl, function() {
       var qCard = document.getElementsByClassName('qcard')[0];
       var cardTitle = document.getElementById('q-card-name');
       var cardQuestion = document.getElementById('q-card-question');
+      var cardCommand = document.getElementById('q-card-command');
+      var cardQuestionText = document.getElementById('q-card-question-text');
       var qCardFooter = document.getElementsByClassName('q-card-footer')[0];
       cardTitle.innerHTML = "<h1>" + currentCard[cardsLabels.indexOf(topicColumnName)] + "</h1>";
       cardTitle.style.fontFamily = cardFont;
       cardTitle.style.color = currentCard[cardsLabels.indexOf("Color")];
-      cardQuestion.innerHTML = "<p>" + "Ask yourself:" + "</p>" + "<p>" + currentCard[cardsLabels.indexOf(textColumnName)] + "</p>";
+      // cardQuestion.innerHTML = "<p>" + "问你自己:" + "</p>" + "<p>" + currentCard[cardsLabels.indexOf(textColumnName)] + "</p>";
+      cardCommand.innerHTML = currentCard[cardsLabels.indexOf("Command")];
+      cardQuestionText.innerHTML = currentCard[cardsLabels.indexOf(textColumnName)];
       cardQuestion.style.fontFamily = cardFont;
       qCard.style.background = currentCard[cardsLabels.indexOf("BackgroundColor")];
       cardQuestion.style.color = currentCard[cardsLabels.indexOf("qTextColor")];

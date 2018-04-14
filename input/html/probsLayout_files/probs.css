@@ -1,6 +1,7 @@
 body {
   margin: 72px;
-  background: #b60000;
+  /* background: #b60000; */
+  background: #ffffff;
 }
 
 .export-container {
@@ -16,7 +17,8 @@ body {
 .pcard {
   position: relative;
   border-radius: 9.8%/7%;
-  width: 100%;
+  /* width: 100%; */
+  width: 350px;
   background: #b60000;
   color: white;
   /*border: 1px solid black;*/
