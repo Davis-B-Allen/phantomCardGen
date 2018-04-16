@@ -1,0 +1,85 @@
+body {
+  margin: 72px;
+  /* background: #b60000; */
+  /* background: #ffffff; */
+  /* background: #000000; */
+}
+
+.export-container {
+  font-size: 12px;
+  /*width: 300px;*/
+}
+
+@font-face {
+  font-family: myFirstFont;
+  src: url('SEGOEPRB.TTF');
+}
+
+.pcard {
+  position: relative;
+  border-radius: 9.8%/7%;
+  width: 100%;
+  /* width: 350px; */
+  /* background: #b60000; */
+  background: #000000;
+  color: white;
+  /*border: 1px solid black;*/
+  line-height: 1.428571429;
+}
+
+.pcard .p-card-spacer {
+  display: block;
+  padding-bottom: 140%;
+  /* initial ratio of 1:1*/
+}
+
+.pcard .p-card-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.pcard .p-card-content .p-card-content-inner {
+  padding: 10% 10% 0% 10%;
+  height: 70%;
+  /*display: flex;
+  justify-content: center;
+  align-items: center;*/
+}
+
+#p-card-content-problem {
+  /* color: white; */
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+}
+
+#footer {
+  /* color: white; */
+  font-family: Helvetica;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 0% 10% 10% 10%;
+}
+
+#cai-logo {
+  width: 12%;
+  height: 12%;
+  vertical-align: middle;
+}
+
+#card-number {
+  margin-top: 3%;
+  float: right;
+}
+
+.vertical-align {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
