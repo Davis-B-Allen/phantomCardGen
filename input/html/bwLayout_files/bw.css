@@ -52,7 +52,9 @@ body {
 #p-card-content-problem {
   /* color: white; */
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 500;
+  /* font-family: "Helvetica", Helvetica, Arial, sans-serif; */
+  /* font-weight: 500; */
+  font-weight: bold;
 }
 
 #footer {
