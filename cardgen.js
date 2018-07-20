@@ -201,6 +201,7 @@ for (var i = 0; i < sharedKeys.length; i++) {
 // Leave the line below uncommented to only export a few cards. Keep it commented to export all cards
 // cards = cards.slice(39,42);
 
+// MAKESHIFT WORKAROUND
 // add an additional row for first time run through
 // for some reason, the first image exported with bleed gets fucked up. this is a shitty workaround
 cards.unshift(cards[0]);
@@ -241,11 +242,14 @@ page.open(fileUrl, function() {
 
       var numbers = document.getElementsByClassName('number-suit');
       for(var i = 0; i < numbers.length; i++) {
-        numbers[i].innerHTML = currentCard[cardsLabels.indexOf("NumDisp")] + "<br>" + currentCard[cardsLabels.indexOf("SymDisp")];
+        numbers[i].innerHTML = currentCard[cardsLabels.indexOf("NumDisp")] + "<br><span class=\"card-suit\">" + currentCard[cardsLabels.indexOf("SymDisp")] + "</span>";
         numbers[i].style.color = currentCard[cardsLabels.indexOf("Color")];
       }
     }, currentCard,cardsLabels,bleed,topicColumnName,textColumnName,cardFont);
     page.render(outputPath + 'card' + i + '.png');
   }
+  // MAKESHIFT WORKAROUND
+  // Delete the first card
+  fs.remove(outputPath + 'card' + 0 + '.png');
   phantom.exit();
 });

@@ -1,3 +1,8 @@
+@font-face{
+  font-family:segoe;
+  src:url(SEGOEPRB.TTF)
+}
+
 .card-container {
   width: 100%;
   /* 1:1 Fits into full width of whatever you put it in */
