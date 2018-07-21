@@ -177,25 +177,21 @@ var contentCardLabels = cardContent.shift();
 var detailCardLabels = cardDetails.shift();
 var cardsLabels = detailCardLabels.concat(contentCardLabels);
 
-var contentKeys = cardContent.map(function(item, index) {
-  return item[contentCardLabels.indexOf("Face")];
-});
-
 var detailKeys = cardDetails.map(function(item, index) {
   return item[detailCardLabels.indexOf("Face")];
 });
 
-var sharedKeys = contentKeys.filter(function(row) {
-    return detailKeys.indexOf(row) !== -1;
+var validContent = cardContent.filter(function(row) {
+  var key = row[contentCardLabels.indexOf("Face")];
+  return detailKeys.indexOf(key) !== -1;
 });
 
 var cards = []
 
-for (var i = 0; i < sharedKeys.length; i++) {
-  var key = sharedKeys[i];
+for (var i = 0; i < validContent.length; i++) {
+  var key = validContent[i][contentCardLabels.indexOf("Face")];
   var sharedDetails = cardDetails.filter(function(row) { return row[detailCardLabels.indexOf("Face")] === key; });
-  var sharedContent = cardContent.filter(function(row) { return row[contentCardLabels.indexOf("Face")] === key; });
-  cards.push(sharedDetails[0].concat(sharedContent[0]))
+  cards.push(sharedDetails[0].concat(validContent[i]));
 }
 
 // Leave the line below uncommented to only export a few cards. Keep it commented to export all cards
